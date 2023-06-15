@@ -1,0 +1,45 @@
+﻿@model Shop.Data.Product
+
+@{
+    ViewData["Title"] = "Thêm mới sản phẩm";
+}
+
+<h1>Thêm mới sản phẩm</h1>
+
+<h4>Thông tin</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" type="number" min="1000"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadFile" class="control-label"></label>
+                <input asp-for="UploadFile" class="form-control" type="file" accept=".jpg, .png" />
+                <span asp-validation-for="UploadFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu thông tin" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Trở về</a>
+</div>
+

@@ -1,0 +1,131 @@
+﻿@using Shop.Data
+@model Bill
+
+@{
+	ViewData["Title"] = "Thông tin hóa đơn";
+}
+
+<div class="cart">
+	<h2>Thông tin hóa đơn</h2>
+
+	<div class="row">
+		<div class="col-sm-3">
+			<label>Mã đơn hàng:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.Id</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Số điện thoại người nhận:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.PhoneNumber</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Địa chỉ nhận hàng:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.ToAddress</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Ghi chú:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.Note</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Thời gian:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.CreationTime.ToString("HH:mm dd/MM/yyyy")</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Trạng thái:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>
+				@if (Model.Status == 0)
+				{
+					<span>Chờ xác nhận</span>
+				}
+				else if (Model.Status == 1)
+				{
+					<span>Đang xử lý</span>
+				}
+				else if (Model.Status == 2)
+				{
+					<span>Đang gửi đi</span>
+				}
+				else if (Model.Status == 3)
+				{
+					<span>Hoàn thành</span>
+				}
+				else if (Model.Status == 4)
+				{
+					<span>Thất bại</span>
+				}
+				else
+				{
+					<span>Đã hủy</span>
+				}
+			</label>
+		</div>
+
+		<div class="col-sm-3">
+			<label>Tổng giá trị hóa đơn:</label>
+		</div>
+		<div class="col-sm-9">
+			<label>@Model.Detailts.Sum(_ => _.Quantity * _.Price) vnđ</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Sản phẩm</th>
+						<th>Giá</th>
+						<th>Số lượng</th>
+						<th>Tổng giá</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Detailts)
+					{
+						<tr>
+							<td>
+								<div class="d-flex align-items-center">
+									<img src="@item.Product.Image" alt="@item.Product.Name" style="height: 50px; width: auto">
+									<h3>@item.Product.Name</h3>
+								</div>
+							</td>
+							<td>@item.Price vnđ</td>
+							<td>
+								@item.Quantity
+							</td>
+							<td>@(item.Price * item.Quantity)</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-sm-12" style="margin-bottom:150px">
+			@if (User.IsInRole("admin"))
+			{
+				<a href="@Url.Action("Manager", "Bill")">Trở về</a>
+			}
+			else
+			{
+				<a href="@Url.Action("Index", "Account")">Trở về</a>
+			}
+		</div>
+	</div>
+
+</div>

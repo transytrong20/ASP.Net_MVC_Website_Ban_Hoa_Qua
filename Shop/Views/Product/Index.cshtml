@@ -1,0 +1,103 @@
+﻿@using Shop.Data
+@model Product[]
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('images/home/bg_1.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Products</span></p>
+                <h1 class="mb-0 bread">Products</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            @*<div class="col-md-10 mb-5 text-center">
+            <ul class="product-category">
+            <li><a href="#" class="active">All</a></li>
+            <li><a href="shop1.html">Vegetables</a></li>
+            <li><a href="#">Fruits</a></li>
+            <li><a href="#">Juice</a></li>
+            <li><a href="#">Dried</a></li>
+            </ul>
+            </div>*@
+            <div style="width:100%">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input class="form-control" placeholder="Tìm kiếm sản phẩm..." name="keyword" value="@ViewData["keyword"]" style="width:100%;height:40px !important; margin-left:50%; margin-bottom: 50px; border-radius:0; text-align:center;" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-outline-primary" style="border-radius:0; width:100%; height:40px !important;margin-left:150%">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.Length > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-3 ftco-animate">
+                        <form action="@Url.Action("Add","Cart")" method="get">
+                            <div class="product">
+                                <a href="@Url.Action("ViewDetailt", "Product", new {Id = item.Id})" class="img-prod">
+                                    <img class="img-fluid" src="@item.Image" alt="@item.Name">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="@Url.Action("ViewDetailt", "Product", new {Id = item.Id})">@item.Name</a></h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span>@item.Price</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-area d-flex px-3">
+                                        <div class="m-auto d-flex">
+                                            <a href="@Url.Action("ViewDetailt", "Product", new {Id = item.Id})" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                                <span><i class="ion-ios-menu"></i></span>
+                                            </a>
+                                            <input name="productId" value="@item.Id" type="hidden" style="display: none" />
+                                            <button style="color: #fff; width: 100%; background: #82ae46; width: 40px; height: 40px; margin: 0 auto; border-radius: 50%;" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                <span><i class="ion-ios-cart"></i></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-sm-12 mt-3">
+                    <div class="text-center">
+                        <h3>Không tìm thấy sản phẩm phù hợp</h3>
+                    </div>
+                </div>
+            }
+        </div>
+        @*<div class="row mt-5">
+        <div class="col text-center">
+        <div class="block-27">
+        <ul>
+        <li><a href="#">&lt;</a></li>
+        <li class="active"><span>1</span></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&gt;</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>*@
+    </div>
+</section>

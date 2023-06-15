@@ -1,0 +1,116 @@
+﻿@using Shop.Data
+@model Cart[]
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+@section Scripts{
+    <script>
+        $(document).on('click', '.change', function () {
+            var name = $(this).attr('data-name');
+            var quantity = $('input[name=' + name + ']').val();
+
+            window.location.href = '/cart/change?id=' + name + '&quantity=' + quantity;
+        });
+    </script>
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('images/home/bg_1.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cart</span></p>
+                <h1 class="mb-0 bread">My Cart</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Product name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center">
+                                    <td class="product-remove">
+                                        <a href="@Url.Action("Remove", "Cart", new {id = item.Id})"><span class="ion-ios-close"></span></a>
+                                    </td>
+
+                                    <td class="image-prod"><div class="img" style="background-image:url('@item.Product.Image');"></div></td>
+
+                                    <td class="product-name">
+                                        <h3>@item.Product.Name</h3>
+                                        @*<p>@item.Product.Description</p>*@
+                                    </td>
+
+                                    <td class="price">@item.Product.Price</td>
+
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <input type="number" name="@item.Id" class="quantity form-control input-number" value="@item.Quantity" min="1">
+                                        </div>
+                                    </td>
+
+                                    <td class="total">@(item.Product.Price * @item.Quantity) </td>
+                                    <td><button class="btn btn-outline-primary change" data-name="@item.Id">Lưu</button></td>
+
+                                </tr>
+                                <!-- END TR-->
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @if (Model.Count() > 0)
+        {
+            <form method="post" action="@Url.Action("Checkout", "Bill")">
+                <div class="row justify-content-end">
+                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                        <div class="cart-total mb-3">
+                            <h3>Địa chỉ nhận hàng</h3>
+                            <p>Nhập địa chỉ vận chuyển của bạn</p>
+                            <form action="#" class="info">
+                                <div class="form-group">
+                                    <label for="" >Địa chỉ nhận</label>
+                                    <input type="text" class="form-control text-left px-3" placeholder="" required name="ToAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country" >Số điện thoại người nhận</label>
+                                    <input type="text" class="form-control text-left px-3" placeholder="" name="PhoneNumber">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country" >Ghi trú</label>
+                                    <input type="text" class="form-control text-left px-3" placeholder="" name="Note">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                        <div class="cart-total mb-3">
+                            <h3>Tổng số lượng giỏ hàng : @Model.Sum(x => x.Quantity)</h3>
+                            <p class="d-flex">
+                                <span>Tổng tiền</span>
+                                <span>@Model.Sum(_ => _.Product.Price * _.Quantity) VNĐ</span>
+                            </p>
+                        </div>
+                        <button type="submit" class="btn btn-primary py-3 px-4">Đặt hàng</button>
+                    </div>
+                </div>
+            </form>
+        }
+</section>
