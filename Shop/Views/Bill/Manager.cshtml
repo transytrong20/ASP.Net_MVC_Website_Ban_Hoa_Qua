@@ -1,0 +1,90 @@
+﻿@using Shop.Data
+@model Bill[]
+@{
+	ViewData["Title"] = "Hóa đơn";
+}
+
+<h2>Danh sách hóa đơn</h2>
+<div class="form-group">
+	<form method="get">
+		<div class="row">
+			<div class="col-sm-6">
+				<input class="form-control" placeholder="Tìm kiếm" name="keyword" value="@ViewData["keyword"]" />
+			</div>
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Mã</th>
+				<th>Sđt</th>
+				<th>Tới</th>
+				<th>Ghi chú</th>
+				<th>Trạng thái</th>
+				<th>Gía trị</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.PhoneNumber</td>
+					<td>@item.ToAddress</td>
+					<td>@item.Note</td>
+					<td>
+						@if (item.Status == 0)
+						{
+							<span>Chờ xác nhận</span>
+						}
+						else if (item.Status == 1)
+						{
+							<span>Đang xử lý</span>
+						}
+						else if (item.Status == 2)
+						{
+							<span>Đang gửi đi</span>
+						}
+						else if (item.Status == 3)
+						{
+							<span>Hoàn thành</span>
+						}
+						else if (item.Status == 4)
+						{
+							<span>Thất bại</span>
+						}
+						else
+						{
+							<span>Đã hủy</span>
+						}
+					</td>
+					<td>@item.Detailts.Sum(_ => _.Price * _.Quantity)</td>
+					<td>
+						<a href="@Url.Action("View", "Bill", new {Id=item.Id})" class="btn btn-outline-primary">Xem</a>
+						@if (item.Status == 0)
+						{
+							<a href="@Url.Action("Change", "Bill", new {id=item.Id, status = 2})" class="btn btn-outline-primary">Xác nhận</a>
+							<a href="@Url.Action("Change", "Bill", new {id=item.Id, status = 5})" class="btn btn-outline-warning">Hủy bỏ</a>
+						}
+						else if (item.Status == 1)
+						{
+							<a href="@Url.Action("Change", "Bill", new {id=item.Id, status = 2})" class="btn btn-primary">Gửi đi</a>
+						}
+						else if (item.Status == 2)
+						{
+							<a href="@Url.Action("Change", "Bill", new {id=item.Id, status = 3})" class="btn btn-outline-success">Hoàn tất</a>
+							<a href="@Url.Action("Change", "Bill", new {id=item.Id, status = 4})" class="btn btn-outline-danger">Thất bại</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

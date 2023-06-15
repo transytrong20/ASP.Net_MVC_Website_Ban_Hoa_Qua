@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Shop.Data;
+@model IdentityUser
+@{
+	ViewData["Title"] = "Thông tin tài khoản";
+	var roles = (string[])ViewData["role"];
+	var bills = (Bill[])ViewData["bills"];
+	var stt = 1;
+}
+
+<div class="row">
+	<div class="col-md-3">
+		<h2>Thông tin tài khoản</h2>
+		<ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+				<a class="nav-link active" data-toggle="pill" href="#profile">Thông tin</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#change-password">Đổi mật khẩu</a>
+			</li>
+			@if (!roles.Any())
+			{
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="pill" href="#bill">Hóa đơn của bạn</a>
+				</li>
+			}
+		</ul>
+	</div>
+	<div class="col-md-9">
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="profile">
+				<h2>Thông tin tài khoản</h2>
+
+				<div class="card">
+					<div class="card-body">
+						<p class="card-text">Email: @Model.UserName</p>
+						<p class="card-text">Số điện thoại: @Model.PhoneNumber</p>
+
+						@if (roles.Any())
+						{
+							<p class="card-text">Vai trò: @string.Join(", ", roles)</p>
+						}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="change-password">
+				<h3>Đổi mật khẩu</h3>
+				<div class="row">
+					<div class="col-sm-12 col-md-8">
+						<div class="card">
+							<div class="card-body">
+								<form action="@Url.Action("ChangePassword", "Account")" method="post">
+									<div class="form-group">
+										<label for="current-password">Mật khẩu hiện tại</label>
+										<input type="password" class="form-control" id="current-password" name="CurrentPassword" required>
+									</div>
+									<div class="form-group">
+										<label for="new-password">Mật khẩu mới</label>
+										<input type="password" class="form-control" id="new-password" name="NewPassword" required>
+									</div>
+									<div class="form-group">
+										<label for="confirm-password">Nhắc lại mật khẩu</label>
+										<input type="password" class="form-control" id="confirm-password" name="ConfirmPassword" required>
+									</div>
+									<button type="submit" class="btn btn-primary">Thay đổi</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@if (!roles.Any())
+			{
+				<div class="tab-pane fade" id="bill">
+					<h2>Hóa đơn của bạn</h2>
+
+					<div class="card">
+						<div class="card-body">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>STT</th>
+										<th>Số điện thoại</th>
+										<th>Địa chỉ</th>
+										<th>Lưu ý</th>
+										<th>Thời gian</th>
+										<th>Trạng thái</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in bills)
+									{
+										<tr>
+											<td>@stt</td>
+											<td>@item.PhoneNumber</td>
+											<td>@item.ToAddress</td>
+											<td>@item.Note</td>
+											<td>@item.CreationTime.ToString("HH:mm dd/MM/yyyy")</td>
+											<td>
+												@if (item.Status == 0)
+												{
+													<span>Chờ xác nhận</span>
+												}
+												else if (item.Status == 1)
+												{
+													<span>Đang xử lý</span>
+												}
+												else if (item.Status == 2)
+												{
+													<span>Đang gửi đi</span>
+												}
+												else if (item.Status == 3)
+												{
+													<span>Hoàn thành</span>
+												}
+												else if (item.Status == 4)
+												{
+													<span>Thất bại</span>
+												}
+												else
+												{
+													<span>Đã hủy</span>
+												}
+											</td>
+											<td>
+												<a href="@Url.Action("View", "Bill", new {Id=item.Id})" class="btn btn-outline-primary">Xem</a>
+												@if (item.Status == 0)
+												{
+													<a href="@Url.Action("Cancle", "Bill", new {Id=item.Id})" class="btn btn-outline-danger">Hủy</a>
+												}
+											</td>
+										</tr>
+									}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@if (ViewData["notify"] != null && ViewData["notify"] != string.Empty)
+	{
+		<script>
+			alert('@Html.Raw(ViewData["notify"])');
+		</script>
+	}
+}

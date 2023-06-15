@@ -1,0 +1,95 @@
+﻿@using Shop.Data
+@model Cart[]
+
+@{
+	ViewData["Title"] = "Giỏ hàng";
+}
+
+<div class="cart">
+	<h2>Giỏ hàng</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sản phẩm</th>
+				<th>Giá</th>
+				<th>Số lượng</th>
+				<th>Tổng giá</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						<div class="d-flex align-items-center">
+							<img src="@item.Product.Image" alt="@item.Product.Name" style="height: 50px; width: auto">
+							<h3>@item.Product.Name</h3>
+						</div>
+					</td>
+					<td>@item.Product.Price vnđ</td>
+					<td>
+						<input type="number" min="1" name="@item.Id" value="@item.Quantity" class="form-control">
+					</td>
+					<td>@(item.Product.Price * item.Quantity)</td>
+					<td>
+						<button class="btn btn-outline-primary change" data-name="@item.Id">Lưu</button>
+						<a class="btn btn-outline-danger" href="@Url.Action("Remove", "Cart", new {id = item.Id})">Xóa</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<div class="cart-total">
+		<h4>Tổng: @Model.Sum(_ => _.Product.Price * _.Quantity) vnđ</h4>
+		@if(Model.Count() > 0)
+		{
+			<form method="post" action="@Url.Action("Checkout", "Bill")">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="row form-group">
+							<div class="col-sm-5">
+								<label>Địa chỉ nhận <span style="color: red">*</span>:</label>
+							</div>
+							<div class="col-sm-7">
+								<input class="form-control" required name="ToAddress" />
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-5">
+								<label>Số điện thoại người nhận :</label>
+							</div>
+							<div class="col-sm-7">
+								<input class="form-control" name="PhoneNumber"/>
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-5">
+								<label>Ghi chú:</label>
+							</div>
+							<div class="col-sm-7">
+								<input class="form-control" name="Note" />
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-outline-primary">Đặt hàng</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		}
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		$(document).on('click', '.change', function () {
+			var name = $(this).attr('data-name');
+			var quantity = $('input[name=' + name + ']').val();
+
+			window.location.href = '/cart/change?id=' + name + '&quantity=' + quantity;
+		});
+	</script>
+}

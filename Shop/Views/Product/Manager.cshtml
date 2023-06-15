@@ -1,0 +1,56 @@
+﻿@using Shop.Data
+@model Product[]
+@{
+	ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<h2>Danh sách sản phẩm</h2>
+<div class="form-group">
+	<form method="get">
+		<div class="row">
+			<div class="col-sm-6">
+				<input class="form-control" placeholder="Tìm kiếm" name="keyword" value="@ViewData["keyword"]" />
+			</div>
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+				<a href="@Url.Action("Add", "Product")" class="btn btn-outline-success">Thêm mới</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Tên</th>
+				<th>Hình ảnh</th>
+				<th>Giá</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.Name</td>
+					<td><img src="@item.Image" alt="@item.Name" style="height: 50px; width: auto"></td>
+					<td>@item.Price vnđ</td>
+					<td>
+						<a href="@Url.Action("Edit", "Product", new {id = item.Id})" class="btn btn-outline-primary">Sửa</a>
+						<a href="@Url.Action("Delete", "Product", new {id = item.Id})" class="btn btn-outline-danger">Xóa</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@section Scripts {
+	@if (ViewData["notify"] != null && ViewData["notify"] != string.Empty)
+	{
+		<script>
+			alert('@Html.Raw(ViewData["notify"])');
+		</script>
+	}
+}
