@@ -8908,9 +8908,9 @@ h1, h2, h3, h4, h5,
 .ftco-cart .info label {
   font-size: 13px;
   color: #000000; }
-
-.cart-list {
-  overflow-x: scroll; }
+/*.cart-list {
+    overflow-x: scroll;
+}*/
 
 .table {
   width: 100%;

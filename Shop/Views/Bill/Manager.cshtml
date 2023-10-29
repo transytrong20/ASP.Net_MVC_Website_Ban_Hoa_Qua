@@ -7,13 +7,12 @@
 <h2>Danh sách hóa đơn</h2>
 <div class="container pb-3">
 	<form method="get">
-		<div class="row">
-			<div class="col-sm-6">
-				<input class="form-control" placeholder="Tìm kiếm sản phẩm..." name="keyword" value="@ViewData["keyword"]" style="width:150% ;height:40px !important; margin-bottom: 50px; border-radius:0; text-align:center;" />
+		<div class="row" style="align-items: center;">
+			<div class="col-12" style="position:relative;">
+				<input class="form-control" placeholder="Tìm kiếm sản phẩm..." name="keyword" value="@ViewData["keyword"]" />
+				<button type="submit" style="position: absolute;top:0px;right:20px;font-size: 26px;background:none;border: none;"><i class="fa-solid fa-magnifying-glass"></i></button>
 			</div>
-			<div class="col-sm-2">
-				<button type="submit" class="btn btn-outline-primary" style="border-radius:0; width:100%; height:40px !important;margin-left:150%">Tìm kiếm</button>
-			</div>
+
 		</div>
 	</form>
 </div>
