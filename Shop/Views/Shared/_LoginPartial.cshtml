@@ -3,38 +3,38 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-	@if (SignInManager.IsSignedIn(User))
-	{
-		@if(User.IsInRole("admin"))
-		{
-			<li class="nav-item">
-				<a class="nav-link text-dark" href="@Url.Action("Manager", "Product")">Quản lý sản phẩm</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-dark" href="@Url.Action("Manager", "Bill")">Quản lý hóa đơn</a>
-			</li>
-		}
-		else
-		{
-			<li class="nav-item">
-				<a class="nav-link text-dark" href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
-			</li>
-		}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (User.IsInRole("admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="@Url.Action("Manager", "Product")">Quản lý sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="@Url.Action("Manager", "Bill")">Quản lý hóa đơn</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
+            </li>
+        }
 
-		<li class="nav-item">
-			<a class="nav-link text-dark" href="@Url.Action("Index", "Account")" title="Manage">Xin chào @User.Identity.Name!</a>
-		</li>
-		<li class="nav-item">
-			<a href="@Url.Action("Logout", "Account")" class="nav-link btn btn-link text-dark">Đăng xuất</a>
-		</li>
-	}
-	else
-	{
-		<li class="nav-item">
-			<a class="nav-link text-dark" href="@Url.Action("Register", "Account")">Đăng ký</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link text-dark" href="@Url.Action("Login", "Account")">Đăng nhập</a>
-		</li>
-	}
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="@Url.Action("Index", "Account")" title="Manage">Xin chào @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Logout", "Account")" class="nav-link btn btn-link text-dark">Đăng xuất</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="@Url.Action("Register", "Account")">Đăng ký</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+        </li>
+    }
 </ul>
