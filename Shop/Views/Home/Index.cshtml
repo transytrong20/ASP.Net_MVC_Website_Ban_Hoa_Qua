@@ -4,6 +4,53 @@
     ViewData["Title"] = "Trang chủ";
 }
 
+@section Styles{
+    <style>
+        .image-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .image-container img {
+                width: auto;
+                height: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                object-fit: contain;
+            }
+    </style>
+}
+
+@*code cũ *@
+@*<div id="bannerCarousel" class="carousel slide" data-ride="carousel">
+	<ol class="carousel-indicators">
+		<li data-target="#bannerCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#bannerCarousel" data-slide-to="1"></li>
+		<li data-target="#bannerCarousel" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="~/images/home/banner1.png" alt="Banner 1" width="100%">
+		</div>
+		<div class="carousel-item">
+			<img src="~/images/home/banner2.png" alt="Banner 1" width="100%">
+		</div>
+		<div class="carousel-item">
+			<img src="~/images/home/banner3.png" alt="Banner 1" width="100%">
+		</div>
+	</div>
+	<a class="carousel-control-prev" href="#bannerCarousel" data-slide="prev">
+		<span class="carousel-control-prev-icon"></span>
+	</a>
+	<a class="carousel-control-next" href="#bannerCarousel" data-slide="next">
+		<span class="carousel-control-next-icon"></span>
+	</a>
+</div>*@
+
 <section id="home-section" class="hero">
     <div class="home-slider owl-carousel">
         <div class="slider-item" style="background-image: url('images/home/bg_1.jpg')">
@@ -136,6 +183,32 @@
 
 <hr />
 
+@*code cũ*@
+@*<h2>Danh sách sản phẩm</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-4 mt-3">
+            <div class="card">
+                <div class="image-container">
+                    <img src="@item.Image" class="card-img-top" alt="@item.Name">
+                </div>
+                <div class="card-body">
+                    <a href="@Url.Action("ViewDetailt", "Product", new {Id = item.Id})"><h5 class="card-title">@item.Name</h5></a>
+                    <p class="card-text">Giá: @item.Price vnđ</p>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-sm-12 mt-5">
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Product")" class="btn btn-outline-primary">Xem thêm</a>
+        </div>
+    </div>*@
+
+
+
+@*code mới*@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">

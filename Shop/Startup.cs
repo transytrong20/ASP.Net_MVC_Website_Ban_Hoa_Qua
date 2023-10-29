@@ -78,7 +78,7 @@ namespace Shop
 
 						dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role1.Id, UserId = user1.Id });
 					}
-				}
+                }
                 if (!dbContext.Products.Any())
                     dbContext.Products.AddRange(GetProducts());
 

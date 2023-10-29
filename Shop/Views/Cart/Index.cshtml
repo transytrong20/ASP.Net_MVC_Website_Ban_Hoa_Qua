@@ -73,44 +73,71 @@
                             }
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-        @if (Model.Count() > 0)
-        {
-            <form method="post" action="@Url.Action("Checkout", "Bill")">
-                <div class="row justify-content-end">
-                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                        <div class="cart-total mb-3">
-                            <h3>Địa chỉ nhận hàng</h3>
-                            <p>Nhập địa chỉ vận chuyển của bạn</p>
-                            <form action="#" class="info">
-                                <div class="form-group">
-                                    <label for="" >Địa chỉ nhận</label>
-                                    <input type="text" class="form-control text-left px-3" placeholder="" required name="ToAddress">
-                                </div>
-                                <div class="form-group">
-                                    <label for="country" >Số điện thoại người nhận</label>
-                                    <input type="text" class="form-control text-left px-3" placeholder="" name="PhoneNumber">
-                                </div>
-                                <div class="form-group">
-                                    <label for="country" >Ghi trú</label>
-                                    <input type="text" class="form-control text-left px-3" placeholder="" name="Note">
+                    <div class="cart-total">
+                        <h4>Tổng: @Model.Sum(_ => _.Product.Price * _.Quantity) vnđ</h4>
+                        @if (Model.Count() > 0)
+                        {
+                            <form method="post" action="@Url.Action("Checkout", "Bill")">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row form-group">
+                                            <div class="col-sm-5">
+                                                <label>Địa chỉ nhận <span style="color: red">*</span>:</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" required name="ToAddress" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-sm-5">
+                                                <label>Số điện thoại người nhận :</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" name="PhoneNumber" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                        <div class="cart-total mb-3">
-                            <h3>Tổng số lượng giỏ hàng : @Model.Sum(x => x.Quantity)</h3>
-                            <p class="d-flex">
-                                <span>Tổng tiền</span>
-                                <span>@Model.Sum(_ => _.Product.Price * _.Quantity) VNĐ</span>
-                            </p>
-                        </div>
-                        <button type="submit" class="btn btn-primary py-3 px-4">Đặt hàng</button>
-                    </div>
-                </div>
-            </form>
-        }
+                        }
+                        @if (Model.Count() > 0)
+                        {
+                            <form method="post" action="@Url.Action("Checkout", "Bill")">
+                                <div class="row justify-content-end">
+                                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                                        <div class="cart-total mb-3">
+                                            <h3>Địa chỉ nhận hàng</h3>
+                                            <p>Nhập địa chỉ vận chuyển của bạn</p>
+                                            <form action="#" class="info">
+                                                <div class="form-group">
+                                                    <label for="">Địa chỉ nhận</label>
+                                                    <input type="text" class="form-control text-left px-3" placeholder="" required name="ToAddress">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="country">Số điện thoại người nhận</label>
+                                                    <input type="text" class="form-control text-left px-3" placeholder="" name="PhoneNumber">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="country">Ghi trú</label>
+                                                    <input type="text" class="form-control text-left px-3" placeholder="" name="Note">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-sm-12">
+                                                <button type="submit" class="btn btn-outline-primary">Đặt hàng</button>
+                                            </div>
+                                            <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                                                <div class="cart-total mb-3">
+                                                    <h3>Tổng số lượng giỏ hàng : @Model.Sum(x => x.Quantity)</h3>
+                                                    <p class="d-flex">
+                                                        <span>Tổng tiền</span>
+                                                        <span>@Model.Sum(_ => _.Product.Price * _.Quantity) VNĐ</span>
+                                                    </p>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary py-3 px-4">Đặt hàng</button>
+                                            </div>
+                                        </div>
+                            </form>
+                        }
 </section>
