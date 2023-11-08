@@ -50,13 +50,13 @@ namespace Shop.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
-					return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
 
-				ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không chính xác");
+                ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không chính xác");
             }
 
             model.Password = string.Empty;
@@ -64,11 +64,11 @@ namespace Shop.Controllers
         }
 
         [Route("logout")]
-		public async Task<IActionResult> Logout()
-		{
-			await _signInManager.SignOutAsync();
-			return RedirectToAction("Index", "Home");
-		}
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
@@ -76,19 +76,19 @@ namespace Shop.Controllers
             if (!ModelState.IsValid || model.NewPassword != model.ConfirmPassword)
                 return RedirectToAction(nameof(Index), new { notify = "Thông tin đổi mật khẩu không chính xác, thử lại sau" });
 
-			string userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            string userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
-			var user = await _userManager.FindByEmailAsync(userName);
+            var user = await _userManager.FindByEmailAsync(userName);
 
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
             if (result.Succeeded)
                 return RedirectToAction(nameof(Index), new { notify = "Thay đổi mật khẩu thành công" });
 
             return RedirectToAction(nameof(Index), new { notify = "Mật khẩu cũ không chính xác" });
-		}
+        }
 
-		[HttpGet("register")]
-		public IActionResult Register()
+        [HttpGet("register")]
+        public IActionResult Register()
         {
             return View(new RegisterModel());
         }
@@ -101,7 +101,7 @@ namespace Shop.Controllers
                 if (model.Password != model.RePassword)
                     ModelState.AddModelError(string.Empty, "Mật khẩu nhắc lại không chính xác");
 
-                if(ModelState.ErrorCount == 0)
+                if (ModelState.ErrorCount == 0)
                 {
                     var user = new IdentityUser()
                     {
@@ -111,16 +111,16 @@ namespace Shop.Controllers
                         PhoneNumber = model.PhoneNumber
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
-                    if(result.Succeeded)
-						return RedirectToAction(nameof(Login));
+                    if (result.Succeeded)
+                        return RedirectToAction(nameof(Login));
 
-					ModelState.AddModelError(string.Empty, "Thông tin đăng ký không chính xác, vui lòng kiểm tra lại");
-				}    
+                    ModelState.AddModelError(string.Empty, "Thông tin đăng ký không chính xác, vui lòng kiểm tra lại");
+                }
             }
 
             model.Password = string.Empty;
             model.RePassword = string.Empty;
             return View();
         }
-	}
+    }
 }
